@@ -1,0 +1,412 @@
+* {
+	box-sizing: border-box;
+	font-family: 'Staatliches', serif;
+	font-size: 16px;
+	letter-spacing: 5px
+}
+
+html {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	animation: color_change 3s alternate;
+}
+
+img {
+  max-width: 100%;
+}
+
+#muteControl {
+  width: 50px;
+}
+
+main {
+	width: 80%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+header {
+	width: 100%;
+	margin-top: 40px;
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+	justify-content: center;
+}
+
+#wawes {
+	width: 400px;
+	display: flex;
+	animation-duration: 1s;
+	animation-name: slidein;
+}
+
+h1 {
+	font-size: 3rem;
+	color: #BF214B;
+}
+
+h1:hover {
+	animation: shake 1.0s;
+}
+
+h1,
+h3 {
+	color: #BF214B
+}
+
+.play-area {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 1fr;
+  grid-gap: 1rem;
+  width: 100%;
+}
+
+p {
+	transition: 1s;
+}
+
+#scoreboard {
+	padding: 20px;
+	background-color: rgba(242, 149, 128, 0.13);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	border-radius: 3px;
+	border: 1px dotted slategrey;
+  border-radius: 20px;
+  max-width: 400px;
+
+}
+
+.play-area {
+  padding-left: 00px;
+}
+
+#wawesmove {
+	width: 650px;
+	animation: moveLeftRight 5.0s infinite
+}
+
+#message {
+	margin-bottom: 75px;
+	height: 20px;
+	font-size: 1rem;
+}
+
+.circles {
+  display: grid;
+  grid-gap: 3px;
+  grid-template-columns: repeat(auto-fill, minmax(3em, 1fr));
+  grid-auto-rows: 1fr;
+}
+
+#board {
+  grid-template-columns: repeat(8, 1fr);
+  max-width: 500px;
+}
+
+.circle {
+  background-color: #5593D1;
+  border-radius: 100%;
+  height: 3em;
+  transition:
+    opacity 0.5s,
+    transform 0.5s;
+  width: 3em;
+}
+
+.circle:hover {
+	opacity: 0.70 !important;
+	transform: scale(0.9);
+}
+
+.circle.miss {
+  background-color: #96c4f2;
+}
+
+
+/* sidebar */
+
+#ships {
+	
+  display: grid;
+  grid-gap: 3px;
+	margin-top: 25px;
+	max-width: 100%;
+}
+
+#ships .circle {
+	border: 2px dotted slategrey;
+}
+
+#triesCount,
+#tries {
+	color: #BF214B;
+	font-size: 1.2rem;
+}
+
+.noMove {
+	transition: 0 !important;
+}
+
+.noMove:hover {
+	transform: rotate(0deg) !important;
+	opacity: 1 !important;
+}
+
+.red {
+	color: #E55934;
+}
+
+.green {
+	color: green;
+}
+
+.yellow {
+	color: orange;
+	font-size: 1.5rem;
+}
+
+.black {
+	color: black;
+}
+
+button {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+#resetGame, #play{
+	width: 180px;
+	height: 50px;
+	border-radius: 10px;
+	color: white;
+	background-color: #BF214B;
+	font-size: 20px;
+	margin-top: 15px;
+}
+
+a {
+	text-decoration: none;
+}
+
+p {
+	color: #5593D1;
+}
+
+span {
+	color: #BF214B
+}
+
+@keyframes color_change {
+	from {
+		background-color: lightblue
+	}
+	to {
+		background-color: rgb(255, 255, 255);
+	}
+}
+
+@keyframes shake {
+	0% {
+		transform: translate(1px, 1px) rotate(0deg);
+	}
+	10% {
+		transform: translate(-1px, -2px) rotate(-1deg);
+	}
+	20% {
+		transform: translate(-3px, 0px) rotate(1deg);
+	}
+	30% {
+		transform: translate(3px, 2px) rotate(0deg);
+	}
+	40% {
+		transform: translate(1px, -1px) rotate(1deg);
+	}
+	50% {
+		transform: translate(-1px, 2px) rotate(-1deg);
+	}
+	60% {
+		transform: translate(-3px, 1px) rotate(0deg);
+	}
+	70% {
+		transform: translate(3px, 1px) rotate(-1deg);
+	}
+	80% {
+		transform: translate(-1px, -1px) rotate(1deg);
+	}
+	90% {
+		transform: translate(1px, 2px) rotate(0deg);
+	}
+	100% {
+		transform: translate(1px, -2px) rotate(1deg);
+	}
+}
+
+@keyframes slidein {
+	from {
+		margin-left: 100%;
+	}
+	to {
+		margin-left: 0%;
+	}
+}
+
+@keyframes shakeShip {
+	0% {
+		transform: translate(1px, 1px) rotate(0deg);
+	}
+	10% {
+		transform: translate(-1px, -2px) rotate(-1deg);
+	}
+	20% {
+		transform: translate(-3px, 0px) rotate(1deg);
+	}
+	30% {
+		transform: translate(3px, 2px) rotate(0deg);
+	}
+	40% {
+		transform: translate(1px, -1px) rotate(1deg);
+	}
+	50% {
+		transform: translate(-1px, 2px) rotate(-1deg);
+	}
+	60% {
+		transform: translate(-3px, 1px) rotate(0deg);
+	}
+	70% {
+		transform: translate(3px, 1px) rotate(-1deg);
+	}
+	80% {
+		transform: translate(-1px, -1px) rotate(1deg);
+	}
+	90% {
+		transform: translate(1px, 2px) rotate(0deg);
+	}
+	100% {
+		transform: translate(1px, -2px) rotate(-1deg);
+	}
+}
+
+@keyframes moveLeftRight {
+	0% {
+		transform: translate(1px, 1px) rotate(0deg);
+	}
+	30% {
+		transform: translate(50px, 1px) rotate(0deg);
+	}
+	60% {
+		transform: translate(-50px, 1px) rotate(0deg);
+	}
+}
+
+/* @media only screen and (max-width: 600px) {
+	img {
+		width: 300px;
+	}
+	h1 {
+		font-size: 35px;
+		text-align: center;
+	}
+	.play-area {
+	}
+	body,
+	html {
+		width: 100%;
+	}
+	#scoreboard {
+		width: 22em;
+		margin: 0px;
+		padding: 10px;
+    background-color: rgba(242, 149, 128, 0.13);
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		border-radius: 3px;
+		border: 1px dotted slategrey;
+		border-radius: 20px;
+	}
+	#message {
+		margin-bottom: 75px;
+		height: 20px;
+		font-size: 1rem;
+	}
+	.row {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+	}
+	.circle {
+		height: 32px;
+		width: 32px;
+		margin: 3px;
+		border-radius: 50%;
+		transition: all 0.5s;
+	}
+	.circle-r {
+		height: 15px;
+		width: 15px;
+		opacity: 0;
+		border-radius: 50%;
+		transition: 1s;
+	}
+	#sound {
+		width: 35px;
+		position: absolute;
+		margin-top: 669px;
+		margin-left: 280px;
+	}
+	#wawes {
+		width: 320px;
+	}
+	#wawesmove {
+		width: 250px;
+	}
+	#play {
+		margin-top: 80px;
+		margin-bottom: 30px;
+	}
+	h1 {
+		font-size: 30px;
+	}
+	#triesCount,
+	#tries {
+		color: #BF214B;
+		font-size: 1rem;
+		margin-top: 20px;
+	}
+	#message {
+		margin-bottom: 75px;
+		height: 20px;
+		font-size: 0.8rem;
+	}
+	#sideship {
+		margin-top: 20px;
+		margin: 10em, 0;
+	}
+	p {
+		letter-spacing: 4px;
+  }
+  header {
+    margin-top: 30px;
+  }
+} */
+
