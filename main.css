@@ -83,16 +83,18 @@ p {
 	background-color: rgba(242, 149, 128, 0.13);
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: center;
 	border-radius: 3px;
 	border: 1px dotted slategrey;
   border-radius: 20px;
-  max-width: 400px;
+  max-width: 450px;
+  min-width: 450px;
 
 }
 
 .play-area {
-  padding-left: 00px;
+  display: flex;
+  justify-content: center;
 }
 
 #wawesmove {
@@ -115,22 +117,29 @@ p {
 
 #board {
   grid-template-columns: repeat(8, 1fr);
-  max-width: 500px;
+  max-width: 450px;
+  min-width: 450px;
+  margin-left: 70px;
 }
 
-.circle {
-  background-color: #5593D1;
-  border-radius: 100%;
-  height: 3em;
+#board .circle {
+	cursor: pointer;
   transition:
     opacity 0.5s,
     transform 0.5s;
-  width: 3em;
 }
 
-.circle:hover {
+#board .circle:hover {
 	opacity: 0.70 !important;
 	transform: scale(0.9);
+}
+
+.circle {
+  --circle-color: #5593D1;
+  background-color: var(--circle-color);
+  border-radius: 100%;
+  height: 3em;
+  width: 3em;
 }
 
 .circle.miss {
@@ -141,7 +150,6 @@ p {
 /* sidebar */
 
 #ships {
-	
   display: grid;
   grid-gap: 3px;
 	margin-top: 25px;
@@ -150,8 +158,16 @@ p {
 
 #ships .circle {
 	border: 2px dotted slategrey;
+	background-color: var(--sidebar-circle-color);
+}
+#ships .circle.hit {
+	opacity: 0.3;
 }
 
+#shipmain {
+  animation: shakeShip 5s infinite;
+
+}
 #triesCount,
 #tries {
 	color: #BF214B;
@@ -159,29 +175,25 @@ p {
 }
 
 .noMove {
-	transition: 0 !important;
+	cursor: default;
+	pointer-events: none;
 }
 
-.noMove:hover {
-	transform: rotate(0deg) !important;
-	opacity: 1 !important;
+.neutral-text {
+	color: black;
 }
 
-.red {
-	color: #E55934;
-}
-
-.green {
+.success-text {
 	color: green;
 }
 
-.yellow {
+.warning-text {
 	color: orange;
 	font-size: 1.5rem;
 }
 
-.black {
-	color: black;
+.error-text {
+	color: #E55934;
 }
 
 button {
@@ -190,6 +202,7 @@ button {
   appearance: none;
   background-color: transparent;
   border: none;
+  cursor: pointer;
   margin: 0;
   padding: 0;
 }
@@ -201,7 +214,9 @@ button {
 	color: white;
 	background-color: #BF214B;
 	font-size: 20px;
-	margin-top: 15px;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  
 }
 
 a {
@@ -318,95 +333,76 @@ span {
 	}
 }
 
-/* @media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) {
+
+  * {   box-sizing: border-box;
+    font-family: 'Staatliches', serif;
+    font-size: 16px;
+    letter-spacing: 5px
+  }
+
+  header, h1 {
+    margin: 0;
+    padding: 0;
+    margin-top: 200px;
+  }
+  
 	img {
 		width: 300px;
-	}
-	h1 {
-		font-size: 35px;
-		text-align: center;
-	}
-	.play-area {
-	}
-	body,
-	html {
-		width: 100%;
-	}
-	#scoreboard {
-		width: 22em;
-		margin: 0px;
-		padding: 10px;
-    background-color: rgba(242, 149, 128, 0.13);
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		border-radius: 3px;
-		border: 1px dotted slategrey;
-		border-radius: 20px;
-	}
-	#message {
-		margin-bottom: 75px;
-		height: 20px;
-		font-size: 1rem;
-	}
-	.row {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: nowrap;
-	}
-	.circle {
-		height: 32px;
-		width: 32px;
-		margin: 3px;
-		border-radius: 50%;
-		transition: all 0.5s;
-	}
-	.circle-r {
-		height: 15px;
-		width: 15px;
-		opacity: 0;
-		border-radius: 50%;
-		transition: 1s;
-	}
-	#sound {
-		width: 35px;
-		position: absolute;
-		margin-top: 669px;
-		margin-left: 280px;
-	}
-	#wawes {
-		width: 320px;
-	}
-	#wawesmove {
-		width: 250px;
-	}
-	#play {
-		margin-top: 80px;
-		margin-bottom: 30px;
-	}
-	h1 {
-		font-size: 30px;
-	}
-	#triesCount,
-	#tries {
-		color: #BF214B;
-		font-size: 1rem;
-		margin-top: 20px;
-	}
-	#message {
-		margin-bottom: 75px;
-		height: 20px;
-		font-size: 0.8rem;
-	}
-	#sideship {
-		margin-top: 20px;
-		margin: 10em, 0;
-	}
-	p {
-		letter-spacing: 4px;
   }
-  header {
-    margin-top: 30px;
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 200px;
   }
-} */
 
+  html, body  {
+    width: 100%;
+    height: 100%;
+ 
+  }
+
+ .play-area{
+   display: flex;
+   justify-content: center;
+   flex-direction: column-reverse;
+ }
+ .circles {
+  display: grid;
+  grid-gap: 3px;
+  grid-template-columns: repeat(auto-fill, minmax(3em, 1fr));
+  grid-auto-rows: 1fr;
+}
+
+.circle {
+  background-color: #5593D1;
+  border-radius: 100%;
+  height: 2em;
+  transition:
+    opacity 0.5s,
+    transform 0.5s;
+  width: 2em;
+}
+
+#board {
+  grid-template-columns: repeat(8, 0fr);
+  max-width: 300px;
+  min-width: 300px;
+  margin-left: 20px;
+}
+#scoreboard {
+	padding: 10px;
+	background-color: rgba(242, 149, 128, 0.13);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	border-radius: 3px;
+	border: 1px dotted slategrey;
+  border-radius: 20px;
+  max-width: 300px;
+  min-width: 300px;
+  max-height: 400px;
+
+}
+
+  }

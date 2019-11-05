@@ -1,16 +1,16 @@
 function init() {
 
-  const s = Object.create(null)
+  const elms = Object.create(null)
   const sounds = Object.create(null)
 
-  sounds.sunkShip = new Audio('Audio/sankShip.mp3')
-  sounds.missShip = new Audio('Audio/missShip.mp3')
-  sounds.hitShip = new Audio('Audio/hitShip.mp3')
-  sounds.wonGame = new Audio('Audio/wonGame.mp3')
-  sounds.lostGame = new Audio('Audio/lostGame.mp3')
-  sounds.mouseOver = new Audio('Audio/mouseOver.mp3')
-  sounds.ticClock = new Audio('Audio/ticClock.mp3')
-  sounds.bubbling = new Audio('Audio/bubble.mp3')
+  sounds.sunkShip = new Audio('audio/sankShip.mp3')
+  sounds.missShip = new Audio('audio/missShip.mp3')
+  sounds.hitShip = new Audio('audio/hitShip.mp3')
+  sounds.wonGame = new Audio('audio/wonGame.mp3')
+  sounds.lostGame = new Audio('audio/lostGame.mp3')
+  sounds.mouseOver = new Audio('audio/mouseOver.mp3')
+  sounds.ticClock = new Audio('audio/ticClock.mp3')
+  sounds.bubbling = new Audio('audio/bubble.mp3')
 
 
   //Globala varsiable
@@ -72,9 +72,9 @@ function init() {
     }
   }
 
-  const circles = {}
+  const circles = Object.create(null)
   const circlesKeyList = new Array(circleCount)
-  const shipLocations = {}
+  const shipLocations = Object.create(null)
   /*
   {
     '0.0': ships.Jessi,
@@ -84,22 +84,22 @@ function init() {
   }
   */
 
-  /* fillBoard creates the playing field with rows * cols.
+  /* createBoard creates the playing field with rows * cols.
   Creates elements on page o simultaneously gives them x, y coordinates and properties id loop ++ */
 
 
-  function fillBoard() {
+  function createBoard() {
     const frag = document.createDocumentFragment()
     const { cols } = dimensions
     let col = 0
     let row = 0
+
     for (let i = 0; i < circleCount; i++) {
       const circle = document.createElement('div')
       const isEndOfRow = i !== 0 && !((i + 1) % cols) // the end is 7
       const coords = `${col}.${row}` // coordintes x.y 
 
       circle.className = 'circle'
-      circle.addEventListener('click', playerClick)
       circle.addEventListener('mouseover', mouseoverSound)
 
       circlesKeyList[i] = circle.id = coords
@@ -115,7 +115,7 @@ function init() {
       frag.appendChild(circle)
     }
 
-    s.boardElm.appendChild(frag)
+    elms.board.appendChild(frag)
   }
 
   function placeShip(ship) {
@@ -126,12 +126,10 @@ function init() {
     while (invalidPlace) {
       let direction = ''
       let edge = 0
-      // let add = 0;
 
       if (Math.round(Math.random()) === 0) {
         direction = 'vertical'
         edge = dimensions.cols
-        // add = 1
       } else {
         direction = 'horizontal'
         edge = dimensions.rows
@@ -145,7 +143,7 @@ function init() {
           shipLocations[coord] = ship
           ship.coords[c] = coord
         }
-        createSidebar(ship)
+        addShipToSidebar(ship)
         invalidPlace = false
       }
       if (++placementAttemps === 99) {
@@ -196,14 +194,14 @@ function init() {
     return coordList
   }
 
-  // createSidebar renders every ship we place on the playing field sidebar (right), box by box.
+  // addShipToSidebar renders every ship we place on the playing field sidebar (right), box by box.
 
-  function createSidebar({
+  function addShipToSidebar({
     color,
     coords,
     name
   }) {
-    const row = document.createElement('div')
+    const row = elms.sidebarShips[name] = document.createElement('div')
 
     row.classList.add('circles', `${name}-row`)
 
@@ -211,31 +209,23 @@ function init() {
       const circle = document.createElement('div')
 
       circle.classList.add('circle', name)
-      circle.style.background = color
+      circle.style.setProperty('--sidebar-circle-color', color)
 
       row.appendChild(circle)
     }
 
-    s.shipsElm.appendChild(row)
+    elms.ships.appendChild(row)
   }
 
 
-  /* showSidebar fixes the effects in the sidebar to the right. When we hit a box where there is a ship, the box gets
-  dynamic color + opacity (depending on how many parts we lowered o how big the ship is). */
+  function addHitToSidebarShip(name, full) {
+    const shipCircles = elms.sidebarShips[name].children;
+    const ship = ships[name]
+    const { size, coords } = ship
+    const remainingIdx = coords.length - 1
 
-
-  function showSidebar(name, full) {
-    const shipOpac = document.getElementsByClassName(name)
-    const circleHit = ships[name].size - ships[name].coords.length
-    const dynamicOpac = 1 / ships[name].size
-    let opac = dynamicOpac * circleHit
-    if (full) opac = 1
-    for (let i = 0; i < circleHit; i++) {
-      shipOpac[i].style.opacity = opac
-      if (full) {
-        shipOpac[i]
-      }
-    }
+    for (let c = size - 1; c > remainingIdx; c--)
+      shipCircles[c].classList.add('hit')
   }
 
   /* playerClick is the other "main function" and controls what happens when a player clicks on a box, which text pops up
@@ -243,39 +233,42 @@ function init() {
   we dropped the ship and b) checkWon if we won. 3) we bar. No matter what, we count down the trials with triesLeft. */
 
 
-  function playerClick() {
-    this.classList.add('noMove')
-    this.removeEventListener('mouseover', mouseoverSound)
-    const { messageElm } = s
+  function playerClick({ target }) {
+    if (!target.classList.contains('circle')) return
 
-    if (this.bombed) {
-      messageElm.classList.add('black')
+    target.classList.add('noMove')
+    target.removeEventListener('mouseover', mouseoverSound)
+    const messageElm = elms
+
+    if (target.bombed) {
+      messageElm.classList.add('neutral-text')
       messageElm.textContent = 'You have already bombed that location…'
       return
     }
 
-    this.bombed = true
+    target.bombed = true
 
-    const ship = shipLocations[this.id]
+    const { id } = target
+    const ship = shipLocations[id]
 
     if (ship) { // hit!
-      const remainingHits = damageShip(this.id, shipLocations, messageElm)
+      const remainingHits = damageShip(id, shipLocations, messageElm)
       const { hitShip } = sounds
 
-      this.style.backgroundColor = ship.color
+      target.style.setProperty('--circle-color', ship.color)
 
       hitShip.currentTime = 0
       hitShip.play()
 
       if (!remainingHits) sinkShip(ship, messageElm)
-    } else missShip(this, messageElm)
+    } else missShip(target, messageElm)
 
     setTimeout(triesLeft, 200)
   }
 
   // If we hit a ship, we remove that coordinate from the ship's location array. When length = 0 it is sunked.
 
-  function damageShip(coord, shipLocations, messageElm) {
+  function damageShip(coord, shipLocations, message) {
     const ship = shipLocations[coord]
     const coordList = ship.coords
     const coordIdx = coordList.indexOf(coord)
@@ -284,33 +277,33 @@ function init() {
 
     delete shipLocations[coord]
 
-    messageElm.className = 'yellow'
-    messageElm.textContent = `You hit ${ship.name}!`
-    showSidebar(ship.name, false)
+    message.className = 'warning-text'
+    message.textContent = `You hit ${ship.name}!`
+    addHitToSidebarShip(ship.name, false)
 
     return coordList.length
   }
 
-  function missShip(circle, messageElm) {
+  function missShip(circle, message) {
     const { missShip } = sounds
 
     circle.classList.add('miss')
 
-    messageElm.className = 'red'
-    messageElm.textContent = 'You missed…'
+    message.className = 'error-text'
+    message.textContent = 'You missed…'
 
     missShip.currentTime = 0
     missShip.play()
   }
 
-  function sinkShip(ship, messageElm) {
+  function sinkShip(ship, message) {
     const { name } = ship
     ship.afloat = false
 
-    messageElm.className = 'green'
-    messageElm.textContent = `You sank ${name}!`
+    message.className = 'success-text'
+    message.textContent = `You sank ${name}!`
 
-    showSidebar(name, true)
+    addHitToSidebarShip(name, true)
     sounds.sunkShip.play()
     setTimeout(checkWon, 500)
   }
@@ -324,12 +317,12 @@ function init() {
       if (afloat) return false
     }
 
-    setTimeout(endGame(true), 1000)
+    setTimeout(endGame(true), 1000) // check in a second 
   }
 
 
   function triesLeft() {
-    const { triesElm } = s
+    const triesElm = elms.tries
     let message = ''
 
     switch (tries--) {
@@ -337,7 +330,7 @@ function init() {
         setTimeout(endGame(false), 1000)
         break
       case 10:
-        message = 'You are almost out of attempts!'
+        message = 'You are almost out of attempts!' // Streches the grid!!! 
         sounds.ticClock.play()
         break
       default:
@@ -355,29 +348,34 @@ function init() {
 
 
   function endGame(won) {
-    sounds.ticClock.pause()
+    const messageElm = elms.message
+
     let message = ''
     let className = ''
 
+    sounds.ticClock.pause()
+
     if (won) {
       sounds.wonGame.play()
-      className = 'green'
+      className = 'success-text'
       message = `Congratulations, you sunk all ships with ${tries + 1} attempts left`
     } else {
-      sounds.lostGame.play()
-      className = 'red'
+      sounds.lostGame.play() // need to stop game and reveal all locations 
+      className = 'error-text'
       message = 'The game is over. You lost!'
     }
 
-    s.messageElm.className = className
-    s.messageElm.textContent = message
+    messageElm.className = className
+    messageElm.textContent = message
 
-    for (const circle in circles) {
+    for (const coord in circles) {
+      const circle = circles[coord]
       circle.classList.add('noMove')
       // reset backgroundColor
-      circle.removeEventListener('click', playerClick)
       circle.removeEventListener('mouseover', mouseoverSound)
     }
+
+    elms.board.removeEventListener('click', playerClick)
   }
 
   // function to play mouseover sound.
@@ -390,44 +388,31 @@ function init() {
   }
 
   function initSound() {
-    s.h1Elm.addEventListener('mouseover', () => {
+    elms.h1.addEventListener('mouseover', () => {
       const { bubbling } = sounds
       bubbling.currentTime = bubbling.duration - 1
       bubbling.play()
     })
+
+    elms.soundToggle.addEventListener('click', () => {
+      for (const key in sounds) {
+        const sound = sounds[key]
+        sound.muted = !sound.muted
+      }
+    })
   }
-
-
-  // function soudOff() {
-  //   s.muteControlElm.addEventListener('click', () => {
-  //     const { bubbling } = sounds
-
-
-  //     bubbling.pause()
-  //   })
-  // }
-
-
-
-
 
   function initSelectors() {
-    s.h1Elm = document.getElementsByTagName('h1')[0]
-    s.boardElm = document.getElementById('board')
-    s.messageElm = document.getElementById('message')
-    s.muteControlElm = document.getElementById('muteControl')
-    s.shipsElm = document.getElementById('ships')
-    s.triesElm = document.getElementById('tries')
+    elms.h1 = document.getElementsByTagName('h1')[0]
+    elms.board = document.getElementById('board')
+    elms.message = document.getElementById('message')
+    elms.soundToggle = document.getElementById('muteControl')
+    elms.ships = document.getElementById('ships')
+    elms.tries = document.getElementById('tries')
+    elms.sidebarShips = Object.create(null)
   }
 
-
-  //GameStart calls out features needed at game launch and puts out the ships we want.
-
-  function GameStart() {
-
-    initSelectors()
-
-    fillBoard()
+  function setupGame() {
     placeShip(ships.Jessi)
     placeShip(ships.Sub)
     placeShip(ships.Destroyer)
@@ -435,12 +420,20 @@ function init() {
     placeShip(ships.Carrier)
     placeShip(ships.Tanker)
     triesLeft()
-    initSound()
-    // soudOff()
+
+
+    elms.board.addEventListener('click', playerClick)
+
     console.log(shipLocations)
   }
 
-  GameStart()
+  initSelectors()
+
+  createBoard()
+
+  setupGame()
+
+  initSound()
 
   // Enhancement  
   // -> 3 levels of diffculty 
