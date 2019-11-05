@@ -18,8 +18,41 @@ function init() {
     cols: 8,
     rows: 8
   }
+
+
   const circleCount = dimensions.cols * dimensions.rows
-  let tries = 38 // Difficulty level
+  let tries = 60 // Difficulty level
+  let message = `Attempts left: ${tries}`
+
+
+  function level1() {
+    tries = 44
+    message = `Attempts left: 44`
+    elms.tries.textContent = message
+  }
+
+
+
+  function level2() {
+    tries = 35
+    message = `Attempts left: 35`
+    elms.tries.textContent = message
+  }
+
+
+  function level3() {
+    tries = 30
+    message = `Attempts left: 30`
+    elms.tries.textContent = message
+  }
+
+
+
+
+
+
+
+
 
   const ships = {
     Jessi: {
@@ -241,8 +274,8 @@ function init() {
     const messageElm = elms
 
     if (target.bombed) {
-      messageElm.classList.add('neutral-text')
-      messageElm.textContent = 'You have already bombed that location…'
+      elms.message.classList.add('neutral-text')
+      elms.message.textContent = 'You have already bombed that location…'
       return
     }
 
@@ -268,7 +301,7 @@ function init() {
 
   // If we hit a ship, we remove that coordinate from the ship's location array. When length = 0 it is sunked.
 
-  function damageShip(coord, shipLocations, message) {
+  function damageShip(coord, shipLocations, messageElm) {
     const ship = shipLocations[coord]
     const coordList = ship.coords
     const coordIdx = coordList.indexOf(coord)
@@ -277,10 +310,9 @@ function init() {
 
     delete shipLocations[coord]
 
-    message.className = 'warning-text'
-    message.textContent = `You hit ${ship.name}!`
+    elms.message.className = 'warning-text'
+    elms.message.textContent = `You hit ${ship.name}!`
     addHitToSidebarShip(ship.name, false)
-
     return coordList.length
   }
 
@@ -289,8 +321,8 @@ function init() {
 
     circle.classList.add('miss')
 
-    message.className = 'error-text'
-    message.textContent = 'You missed…'
+    elms.message.className = 'error-text'
+    elms.message.textContent = 'You missed…'
 
     missShip.currentTime = 0
     missShip.play()
@@ -300,8 +332,8 @@ function init() {
     const { name } = ship
     ship.afloat = false
 
-    message.className = 'success-text'
-    message.textContent = `You sank ${name}!`
+    elms.message.className = 'success-text'
+    elms.message.textContent = `You sank ${name}!`
 
     addHitToSidebarShip(name, true)
     sounds.sunkShip.play()
@@ -326,7 +358,7 @@ function init() {
     let message = ''
 
     switch (tries--) {
-      case 0:
+      case 1:
         setTimeout(endGame(false), 1000)
         break
       case 10:
@@ -358,7 +390,7 @@ function init() {
     if (won) {
       sounds.wonGame.play()
       className = 'success-text'
-      message = `Congratulations, you sunk all ships with ${tries + 1} attempts left`
+      message = `Congratulations, you sunk all ships with ${tries} attempts left`
     } else {
       sounds.lostGame.play() // need to stop game and reveal all locations 
       className = 'error-text'
@@ -402,6 +434,7 @@ function init() {
     })
   }
 
+
   function initSelectors() {
     elms.h1 = document.getElementsByTagName('h1')[0]
     elms.board = document.getElementById('board')
@@ -410,9 +443,14 @@ function init() {
     elms.ships = document.getElementById('ships')
     elms.tries = document.getElementById('tries')
     elms.sidebarShips = Object.create(null)
+    elms.level1 = document.getElementById('playL1')
+    elms.level2 = document.getElementById('playL2')
+    elms.level3 = document.getElementById('playL3')
   }
 
+
   function setupGame() {
+
     placeShip(ships.Jessi)
     placeShip(ships.Sub)
     placeShip(ships.Destroyer)
@@ -422,6 +460,8 @@ function init() {
     triesLeft()
 
 
+
+
     elms.board.addEventListener('click', playerClick)
 
     console.log(shipLocations)
@@ -429,11 +469,17 @@ function init() {
 
   initSelectors()
 
+
   createBoard()
 
   setupGame()
 
   initSound()
+  elms.level1.addEventListener('click', level1)
+  elms.level2.addEventListener('click', level2)
+  elms.level3.addEventListener('click', level3)
+
+
 
   // Enhancement  
   // -> 3 levels of diffculty 
