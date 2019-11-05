@@ -21,7 +21,7 @@ function init() {
 
 
   const circleCount = dimensions.cols * dimensions.rows
-  let tries = 60 // Difficulty level
+  let tries = 35 // Difficulty level
   let message = `Attempts left: ${tries}`
 
 
