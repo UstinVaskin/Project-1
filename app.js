@@ -5,14 +5,14 @@ function init() {
   const elms = Object.create(null)
   const sounds = Object.create(null)
 
-  sounds.sunkShip = new Audio('../audio/sankShip.mp3')
-  sounds.missShip = new Audio('../audio/missShip.mp3')
-  sounds.hitShip = new Audio('../audio/hitShip.mp3')
-  sounds.wonGame = new Audio('../audio/wonGame.mp3')
-  sounds.lostGame = new Audio('../audio/lostGame.mp3')
-  sounds.mouseOver = new Audio('../audio/mouseOver.mp3')
-  sounds.ticClock = new Audio('../audio/ticClock.mp3')
-  sounds.bubbling = new Audio('../audio/bubble.mp3')
+  sounds.sunkShip = new Audio('Audio/sankShip.mp3')
+  sounds.missShip = new Audio('Audio/missShip.mp3')
+  sounds.hitShip = new Audio('Audio/hitShip.mp3')
+  sounds.wonGame = new Audio('Audio/wonGame.mp3')
+  sounds.lostGame = new Audio('Audio/lostGame.mp3')
+  sounds.mouseOver = new Audio('Audio/mouseOver.mp3')
+  sounds.ticClock = new Audio('Audio/ticClock.mp3')
+  sounds.bubbling = new Audio('Audio/bubble.mp3')
 
 
   //Globala varsiable
