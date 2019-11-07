@@ -1,3 +1,5 @@
+
+
 function init() {
 
   const elms = Object.create(null)
@@ -29,8 +31,8 @@ function init() {
     tries = 44
     message = `Attempts left: 44`
     elms.tries.textContent = message
-  }
 
+  }
 
 
   function level2() {
@@ -45,13 +47,6 @@ function init() {
     message = `Attempts left: 30`
     elms.tries.textContent = message
   }
-
-
-
-
-
-
-
 
 
   const ships = {
@@ -109,21 +104,23 @@ function init() {
   const circlesKeyList = new Array(circleCount)
   const shipLocations = Object.create(null)
   /*
-  {
-    '0.0': ships.Jessi,
-    '0.1': ships.Jessi,
-    '3.2': ships.Sub,
-    '4.2': ships.Sub,
-  }
-  */
+	{
+	  '0.0': ships.Jessi,
+	  '0.1': ships.Jessi,
+	  '3.2': ships.Sub,
+	  '4.2': ships.Sub,
+	}
+	*/
 
   /* createBoard creates the playing field with rows * cols.
-  Creates elements on page o simultaneously gives them x, y coordinates and properties id loop ++ */
+	Creates elements on page o simultaneously gives them x, y coordinates and properties id loop ++ */
 
 
   function createBoard() {
     const frag = document.createDocumentFragment()
-    const { cols } = dimensions
+    const {
+      cols
+    } = dimensions
     let col = 0
     let row = 0
 
@@ -186,9 +183,9 @@ function init() {
     }
   }
 
-  const concatPoints = (dir, a, b) => dir === 'vertical'
-    ? `${a}.${b}`
-    : `${b}.${a}`
+  const concatPoints = (dir, a, b) => dir === 'vertical' ?
+    `${a}.${b}` :
+    `${b}.${a}`
 
   function genCoords(direction, edge, ship) {
     // pick a random circle (coordinate) to start from
@@ -210,7 +207,8 @@ function init() {
 
     if (
       shipLocations[startingCoord] // ensure start coord doesn't already have a ship
-      || endPoint + 1 > edge // ensure ship won't hang over the edge
+      ||
+      endPoint + 1 > edge // ensure ship won't hang over the edge
     ) {
       return
     }
@@ -254,7 +252,10 @@ function init() {
   function addHitToSidebarShip(name, full) {
     const shipCircles = elms.sidebarShips[name].children;
     const ship = ships[name]
-    const { size, coords } = ship
+    const {
+      size,
+      coords
+    } = ship
     const remainingIdx = coords.length - 1
 
     for (let c = size - 1; c > remainingIdx; c--)
@@ -262,11 +263,13 @@ function init() {
   }
 
   /* playerClick is the other "main function" and controls what happens when a player clicks on a box, which text pops up
-  on the screen etc. Scenarion: 1) We have already clicked the box. 2) There is a ship where -> run the help functions hitShip to check if a)
-  we dropped the ship and b) checkWon if we won. 3) we bar. No matter what, we count down the trials with triesLeft. */
+	on the screen etc. Scenarion: 1) We have already clicked the box. 2) There is a ship where -> run the help functions hitShip to check if a)
+	we dropped the ship and b) checkWon if we won. 3) we bar. No matter what, we count down the trials with triesLeft. */
 
 
-  function playerClick({ target }) {
+  function playerClick({
+    target
+  }) {
     if (!target.classList.contains('circle')) return
 
     target.classList.add('noMove')
@@ -281,12 +284,16 @@ function init() {
 
     target.bombed = true
 
-    const { id } = target
+    const {
+      id
+    } = target
     const ship = shipLocations[id]
 
     if (ship) { // hit!
       const remainingHits = damageShip(id, shipLocations, messageElm)
-      const { hitShip } = sounds
+      const {
+        hitShip
+      } = sounds
 
       target.style.setProperty('--circle-color', ship.color)
 
@@ -317,7 +324,9 @@ function init() {
   }
 
   function missShip(circle, message) {
-    const { missShip } = sounds
+    const {
+      missShip
+    } = sounds
 
     circle.classList.add('miss')
 
@@ -329,7 +338,9 @@ function init() {
   }
 
   function sinkShip(ship, message) {
-    const { name } = ship
+    const {
+      name
+    } = ship
     ship.afloat = false
 
     elms.message.className = 'success-text'
@@ -344,7 +355,9 @@ function init() {
 
   function checkWon() {
     for (const name in ships) {
-      const { afloat } = ships[name]
+      const {
+        afloat
+      } = ships[name]
 
       if (afloat) return false
     }
@@ -376,7 +389,7 @@ function init() {
   }
 
   /* Eng Game. Different messages depending on whether we won or lost.
-  the for-loop most recently renders the playing field once more with their "right" colors to show where the ships were low */
+	the for-loop most recently renders the playing field once more with their "right" colors to show where the ships were low */
 
 
   function endGame(won) {
@@ -413,7 +426,9 @@ function init() {
   // function to play mouseover sound.
 
   function mouseoverSound() {
-    const { mouseOver } = sounds
+    const {
+      mouseOver
+    } = sounds
 
     mouseOver.currentTime = 0
     mouseOver.play()
@@ -421,7 +436,9 @@ function init() {
 
   function initSound() {
     elms.h1.addEventListener('mouseover', () => {
-      const { bubbling } = sounds
+      const {
+        bubbling
+      } = sounds
       bubbling.currentTime = bubbling.duration - 1
       bubbling.play()
     })
@@ -460,8 +477,6 @@ function init() {
     triesLeft()
 
 
-
-
     elms.board.addEventListener('click', playerClick)
 
     console.log(shipLocations)
@@ -480,14 +495,6 @@ function init() {
   elms.level3.addEventListener('click', level3)
 
 
-
-  // Enhancement  
-  // -> 3 levels of diffculty 
-  // 3 buttons => firing wich numb of attempts needs to be czhanged and ganme shouls be fired  
-  // buttun: 
-  // 1- 45 attemts 
-  // 2 - 34 
-  // 3 - 30 
-  // grid is alawyas the same 8 by 
 }
 window.addEventListener('DOMContentLoaded', init)
+
