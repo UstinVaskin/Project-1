@@ -4,17 +4,20 @@
 #### is a new representation of a classic battleship game. 
 ![Image anchors 'Sink a ship baby'](https://i.imgur.com/dL2QPyh.png)
 
-
+```
 Sink_Ships
 ├──Audio
 ├──anchors.png 
 ├──app.js
 ├──game.html
-├──index.html
+├──main.html
 ├──index.html
 ├──ships.png
+├──sink-a-ship-fp1.png
+├──sink-a-ship-fp1.png
 ├──sound.png
 └──wawes.png
+```
 
 
 ### Overview 
