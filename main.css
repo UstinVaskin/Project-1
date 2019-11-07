@@ -352,14 +352,15 @@ span {
 	h1 {
 		margin: 0;
 		padding: 0;
-		margin-top: 500px;
+    margin-top: 500px;
+    
 	}
 	img {
 		width: 300px;
 	}
 	h1 {
 		text-align: center;
-		font-size: 2rem;
+		font-size: 1.5rem;
 		margin-top: 200px;
 	}
 	html,
