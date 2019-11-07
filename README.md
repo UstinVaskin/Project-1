@@ -177,7 +177,7 @@ There is a sidebar that indicates ships state and messages player about his acti
 1) We have already clicked the box. 
 2) There is a ship where -> run the help functions hitShip to check if a)
   we dropped the ship and b) checkWon if we won. 
-3) we bar. No matter what, we count down the trials with triesLeft. 
+3) No matter what, we count down the tries with triesLeft. 
 
 If we hit a ship, we remove that coordinate from the ship’s location array. When length = 0 it is sunked.
 All ships have key / value = float / false all ships are sunked. We’ve won (endGame). Otherwise, false returns.
