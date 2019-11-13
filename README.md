@@ -33,7 +33,7 @@ This was my first project from General Assembly’s Web Development Immersive Co
 * Design logic for winning & visually displayed;
 * Include separate HTML / CSS / JavaScript files;
 * Use Javascript  for DOM manipulation;
-* Deploy your game online, using Github Pages, where the rest of the world can access it;
+* Deploy game online, using Github Pages, where the rest of the world can access it;
 * Use semantic markup for HTML and CSS (adhere to best practices).
 
 ### Technologies Used:

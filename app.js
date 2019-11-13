@@ -112,9 +112,6 @@ function init() {
 	}
 	*/
 
-  /* createBoard creates the playing field with rows * cols.
-	Creates elements on page o simultaneously gives them x, y coordinates and properties id loop ++ */
-
 
   function createBoard() {
     const frag = document.createDocumentFragment()
@@ -493,7 +490,6 @@ function init() {
   elms.level1.addEventListener('click', level1)
   elms.level2.addEventListener('click', level2)
   elms.level3.addEventListener('click', level3)
-
 
 }
 window.addEventListener('DOMContentLoaded', init)
