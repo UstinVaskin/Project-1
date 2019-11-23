@@ -1,6 +1,6 @@
 
 
-# 'Sink a ship, baby!'  
+![Image anchors 'Sink a ship baby'](https://i.imgur.com/wJY1gpU.png)
 #### is a new representation of a classic battleship game. 
 ![Image anchors 'Sink a ship baby'](https://i.imgur.com/dL2QPyh.png)
 
@@ -207,7 +207,11 @@ In my previous projects, I had a lot of fun working with Audio, so I added sound
 
 ### Final Product:
 
+
+
 ![Image anchors 'Sink a ship baby'](https://i.imgur.com/dL2QPyh.png)
+![Image anchors 'Sink a ship baby'](https://i.imgur.com/Mlq1yAE.gif)
+
 ![Image of a game desktop 'Sink a ship baby'](https://imgur.com/7eakklr.png)
 ![Image of a game mobile 'Sink a ship baby'](https://i.imgur.com/PQTWvPf.png)
 ![Image anchors 'Sink a ship baby'](https://i.imgur.com/dL2QPyh.png)
